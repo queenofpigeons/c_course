@@ -35,6 +35,3 @@
 .vscode/launch.json
 .vscode/tasks.json
 .DS_Store
-hamlet_original.txt
-hamlet_sorted.txt
-hamlet_reverse_sorted.txt
