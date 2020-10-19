@@ -3,7 +3,7 @@ CFLAGS = -E -g -Wall -Werror -std=c11
 LDFLAGS = -g
 LIBS += -lm
 
-TARGETS = stack
+TARGETS = run
 SOURCES = src/*.c
 HEADERS = src/*.h
 OBJECTS = $(SOURCES: .c=.o)
