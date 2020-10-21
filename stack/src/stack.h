@@ -16,5 +16,6 @@ void TEMPLATE(createStack, T)(struct TEMPLATE(Stack, T) *stack, int capacity);
 void TEMPLATE(deleteStack, T)(struct TEMPLATE(Stack, T) *stack);
 void TEMPLATE(push, T)(struct TEMPLATE(Stack, T) *stack, T value);
 T TEMPLATE(pop, T)(struct TEMPLATE(Stack, T) *stack);
+int TEMPLATE(verifyStack, TY)(struct TEMPLATE(Stack, T) *stack)
 
 #endif
