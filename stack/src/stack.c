@@ -1,11 +1,12 @@
 #ifdef T
 
 #include <stdlib.h>
+#include <stdio.h>
 #include <assert.h>
-#include <limits.h>
 #include <stdint.h>
 
 #include "templates.h"
+#include "print.h"
 
 #ifndef STACK_C
 #define STACK_C
@@ -41,7 +42,7 @@ struct TEMPLATE(Stack, T) {
 /*
  * Returns the size of the Stack structure
  */
-int TEMPLATE(getStructSize, T) (void) {
+int TEMPLATE(getStructSize, T)(void) {
     return sizeof(uint64_t) * 2 + sizeof(int) * 2 + sizeof(T *);
 }
 
@@ -51,7 +52,7 @@ int TEMPLATE(getStructSize, T) (void) {
  * stack: pointer to Stack sructure to initialize
  * capacity: desired stack capacity
  */
-void TEMPLATE(createStack, T) (struct TEMPLATE(Stack, T) *stack, int capacity) {
+void TEMPLATE(createStack, T)(struct TEMPLATE(Stack, T) *stack, int capacity) {
     stack->capacity = capacity;
     stack->size = 0;
     int n_blocks = stack->capacity;
@@ -73,7 +74,7 @@ void TEMPLATE(createStack, T) (struct TEMPLATE(Stack, T) *stack, int capacity) {
  *
  * stack: pointer to Stack sructure to delete
  */
-void TEMPLATE(deleteStack, T) (struct TEMPLATE(Stack, T) *stack) {
+void TEMPLATE(deleteStack, T)(struct TEMPLATE(Stack, T) *stack) {
     stack->capacity = -1;
     stack->size = -1;
 
@@ -87,7 +88,7 @@ void TEMPLATE(deleteStack, T) (struct TEMPLATE(Stack, T) *stack) {
  * stack: pointer to Stack sructure
  * value: value to push
  */
-void TEMPLATE(push, T) (struct TEMPLATE(Stack, T) *stack, T value) {
+void TEMPLATE(push, T)(struct TEMPLATE(Stack, T) *stack, T value) {
     if (stack->capacity == stack->size) {
         uint64_t new_size = sizeof(T) * stack->capacity * 2;
         #ifdef CHECK_CANARY
@@ -100,7 +101,8 @@ void TEMPLATE(push, T) (struct TEMPLATE(Stack, T) *stack, T value) {
 
     }
     if (TEMPLATE(verifyStack, T)(stack)) {
-        //dump
+        TEMPLATE(dumpStack, T)(stack);
+
         return;
     }
     stack->data[++stack->size] = value;
@@ -111,10 +113,12 @@ void TEMPLATE(push, T) (struct TEMPLATE(Stack, T) *stack, T value) {
  *
  * stack: pointer to Stack sructure
  */
-T TEMPLATE(pop, T) (struct TEMPLATE(Stack, T) *stack) {
+T TEMPLATE(pop, T)(struct TEMPLATE(Stack, T) *stack) {
     if (TEMPLATE(verifyStack, T)(stack)) {
-        //dump
-        return;
+        TEMPLATE(dumpStack, T)(stack);
+        stack->size--;
+
+        return 0;
     }
     return stack->data[stack->size--];
 }
@@ -124,7 +128,7 @@ T TEMPLATE(pop, T) (struct TEMPLATE(Stack, T) *stack) {
  *
  * stack: pointer to Stack sructure
  */
-int TEMPLATE(verifyStack, TY)(struct TEMPLATE(Stack, T) *stack) {
+int TEMPLATE(verifyStack, T)(struct TEMPLATE(Stack, T) *stack) {
     #ifdef CHECK_STACK
     if (stack->capacity < 0)
         return WRONG_CAPACITY;
@@ -140,6 +144,21 @@ int TEMPLATE(verifyStack, TY)(struct TEMPLATE(Stack, T) *stack) {
 
     #endif
     #endif
+    
+    return STACK_OK;
+}
+
+/*
+ * Dumps stack and print it out
+ *
+ * stack: pointer to Stack structue
+ */
+void TEMPLATE(dumpStack, T)(struct TEMPLATE(Stack, T) *stack) {
+    TEMPLATE(start_err_print, T)();
+    for (int i = stack->size; i > 0; i--) {
+        TEMPLATE(print, T)(i, stack->data[i]);
+    }
+    TEMPLATE(end_err_print, T)();
 }
 
 #endif
