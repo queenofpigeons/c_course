@@ -1,35 +1,56 @@
-#ifndef DEFINES_H
-#define DEFINES_H
+#ifndef DEFINES_C
+#define DEFINES_C
 
-#include "templates.h"
-#include "defines.h"
+#include "../inc/templates.h"
+#include "../inc/defines.h"
+
+#define INT     0
+#define CHAR    1
+#define SHORT   2
+#define DOUBLE  3
 
 #ifdef T
 #undef T
 #endif
+#ifdef PT
+#undef PT
+#endif
+#define PT CHAR
 #define T char
-#include "stack.c"
-#include "print.c"
+#include "../src/stack.c"
+#include "../src/print.c"
 
 #ifdef T
 #undef T
 #endif
+#ifdef PT
+#undef PT
+#endif
+#define PT SHORT
 #define T short
-#include "stack.c"
-#include "print.c"
+#include "../src/stack.c"
+#include "../src/print.c"
 
 #ifdef T
 #undef T
 #endif
+#ifdef PT
+#undef PT
+#endif
+#define PT DOUBLE
 #define T double
-#include "stack.c"
-#include "print.c"
+#include "../src/stack.c"
+#include "../src/print.c"
 
 #ifdef T
 #undef T
 #endif
+#ifdef PT
+#undef PT
+#endif
+#define PT INT
 #define T int
-#include "stack.c"
-#include "print.c"
+#include "../src/stack.c"
+#include "../src/print.c"
 
 #endif

@@ -1,23 +1,25 @@
 #ifdef T
+#ifdef PT
 
 #include <stdio.h>
+#include <string.h>
 
-#include "templates.h"
+#include "../inc/templates.h"
 
 /*
  * Print given number
  *
  * number: number for print
  */
-void TEMPLATE(print, T) (int index, T number) {
-    #if T == int
-        printf("[+]\t%d\n", index, number);
-    #elif T == char
-        printf("[+]\t%c\n", index, number);
-    #elif T == short
-        printf("[+]\t%hd\n", index, number);
-    #elif T == double
-        printf("[+]\t%lf\n", index, number);
+void TEMPLATE(print, T) (T number) {
+    #if PT == INT
+        printf("[+]\t%d\n", number);
+    #elif PT == CHAR
+        printf("[+]\t%c\n", number);
+    #elif PT == SHORT
+        printf("[+]\t%hd\n", number);
+    #elif PT == DOUBLE
+        printf("[+]\t%lf\n", number);
     #endif
 }
 
@@ -25,13 +27,13 @@ void TEMPLATE(print, T) (int index, T number) {
  * Print error message at dump start
  */
 void TEMPLATE(start_err_print, T)(void) {
-    #if T == int
+    #if T == INT
         printf("\n\nCrashdump of INT stack\n");
-    #elif T == char
+    #elif T == CHAR
         printf("\n\nCrashdump of CHAR stack\n");
-    #elif T == short
+    #elif T == SHORT
         printf("\n\nCrashdump of SHORT stack\n");
-    #elif T == double
+    #elif T == DOUBLE
         printf("\n\nCrashdump of DOUBLE stack\n");
     #endif
     printf("---------------------\n");
@@ -45,4 +47,5 @@ void TEMPLATE(end_err_print, T)(void) {
     printf("End of crashdump\n\n");
 }
 
+#endif
 #endif

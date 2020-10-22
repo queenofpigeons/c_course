@@ -3,5 +3,9 @@
 *gdb*
 peda*
 
+# For build
 deps.make
-run
+
+# Binaries
+test
+stack

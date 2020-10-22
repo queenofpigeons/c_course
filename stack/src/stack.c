@@ -5,8 +5,8 @@
 #include <stdint.h>
 #include <string.h>
 
-#include "templates.h"
-#include "print.h"
+#include "../inc/templates.h"
+#include "../inc/print.h"
 
 #ifndef STACK_C
 #define STACK_C
@@ -168,7 +168,7 @@ int TEMPLATE(verifyStack, T)(struct TEMPLATE(Stack, T) *stack) {
 void TEMPLATE(dumpStack, T)(struct TEMPLATE(Stack, T) *stack) {
     TEMPLATE(start_err_print, T)();
     for (int i = stack->size; i > 0; i--) {
-        TEMPLATE(print, T)(i, stack->data[i]);
+        TEMPLATE(print, T)(stack->data[i]);
     }
     TEMPLATE(end_err_print, T)();
 }
