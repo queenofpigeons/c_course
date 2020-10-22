@@ -1,9 +1,9 @@
 #ifdef T
 
 #include <stdlib.h>
-#include <stdio.h>
 #include <assert.h>
 #include <stdint.h>
+#include <string.h>
 
 #include "templates.h"
 #include "print.h"
@@ -31,9 +31,11 @@ struct TEMPLATE(Stack, T) {
     #ifdef CHECK_CANARY
     uint64_t canary_start;
     #endif
+
     int size;
     int capacity;
     T *data;
+
     #ifdef CHECK_CANARY
     uint64_t canary_end;
     #endif
@@ -57,15 +59,19 @@ void TEMPLATE(createStack, T)(struct TEMPLATE(Stack, T) *stack, int capacity) {
     stack->size = 0;
     int n_blocks = stack->capacity;
     int size = sizeof(T);
+
     // if we want to have canary values before and after stack, we must account for them when allocating memory
     #ifdef CHECK_CANARY
     n_blocks = sizeof(T) / sizeof(char) + 2 * sizeof(canary_value) / sizeof (char);
     size = sizeof(char);
     #endif
+
     void *allocated = calloc(n_blocks, size);
+
     #ifdef CHECK_CANARY
     (uint64_t *)allocated++;
     #endif
+
     stack->data = (T*)allocated;
 }
 
@@ -91,14 +97,20 @@ void TEMPLATE(deleteStack, T)(struct TEMPLATE(Stack, T) *stack) {
 void TEMPLATE(push, T)(struct TEMPLATE(Stack, T) *stack, T value) {
     if (stack->capacity == stack->size) {
         uint64_t new_size = sizeof(T) * stack->capacity * 2;
+        T *data_end = stack->data + stack->capacity;
+
         #ifdef CHECK_CANARY
-        (uint64_t *)stack->data--;
+        (T *)stack->data--;
         new_size += sizeof(stack->canary_start) * 2;
         #endif
+        
         void *reallocated = realloc(stack->data, new_size);
         stack->data = reallocated;
-        //TODO занулить память, подвинуть птицу
-
+        memset(++data_end, 0, sizeof(T) * stack->capacity);
+        
+        #ifdef CHECK_CANARY
+        memset(++data_end, canary_value, sizeof(uint64_t));
+        #endif
     }
     if (TEMPLATE(verifyStack, T)(stack)) {
         TEMPLATE(dumpStack, T)(stack);
