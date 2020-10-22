@@ -7,5 +7,4 @@ peda*
 deps.make
 
 # Binaries
-test
-stack
+bin/
